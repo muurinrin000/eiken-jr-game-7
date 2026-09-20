@@ -672,7 +672,7 @@ function speakEnSlow(){
 function speakBoth(){
   if(!("speechSynthesis" in window)) return;
 
-  const en = new SpeechSynthesisUtterance(current.en);
+const en = new SpeechSynthesisUtterance(current.speak || current.en);
   en.lang = "en-US";
   en.rate = 0.85;
   en.pitch = 1.3;
