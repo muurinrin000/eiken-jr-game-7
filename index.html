@@ -6,7 +6,7 @@
   name="viewport"
   content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
 />
-<title>英検Jr. イラスト3択ゲーム6</title>
+<title>英検Jr. イラスト3択ゲーム7</title>
 <style>
   html,
 body,
@@ -348,7 +348,7 @@ button{
   <div class="header">
     <button id="settingsOpen" class="settings-open" type="button">⚙️</button>
     <span class="badge">英検Jr. ブロンズ向け</span>
-<h1>イラスト3択えいごゲーム6</h1>
+<h1>イラスト3択えいごゲーム7</h1>
   </div>
 
   <main class="game-card">
@@ -387,7 +387,7 @@ button{
     <div class="info-icon">📖</div>
     <div class="info-text">
       <strong>かんたんな英単語</strong>
-      <span>てんきの英語を楽しく学べます。</span>
+      <span>ばしょの英語を楽しく学べます。</span>
     </div>
   </div>
 
@@ -455,7 +455,7 @@ button{
     <button id="nextBtnBottom" class="next-btn" type="button">つぎの問題へ</button>
 <section id="resultScreen" style="display:none; text-align:center; padding:22px;">
   <div class="result-card" id="captureArea">
-    <div class="result-card-title">🏆 英検Jr. ブロンズ　イラスト3択ゲーム5</div>
+    <div class="result-card-title">🏆 英検Jr. ブロンズ　イラスト3択ゲーム7</div>
     <div id="resultDate" class="result-date"></div>
 
     <div class="result-score">
@@ -501,28 +501,63 @@ button{
 <script>
 (function(){
 const words = [
-  { icon:"☀️", en:"sun", jp:"たいよう" },
-  { icon:"🌧️", en:"rain", jp:"あめ" },
-  { icon:"❄️", en:"snow", jp:"ゆき" },
-  { icon:"☁️", en:"cloud", jp:"くも" },
-  { icon:"🥵", en:"hot", jp:"あつい" },
-  { icon:"🥶", en:"cold", jp:"さむい" },
-  { icon:"🌤️", en:"warm", jp:"あたたかい" },
-  { icon:"💨", en:"wind", jp:"かぜ" },
-  { icon:"🌞", en:"sunny", jp:"はれている" },
-  { icon:"☔", en:"rainy", jp:"あめの" },
-  { icon:"🌥️", en:"cloudy", jp:"くもっている" },
-  { icon:"🌨️", en:"snowy", jp:"ゆきの" },
-  { icon:"🌬️", en:"windy", jp:"かぜがつよい" },
-  { icon:"🌦️", en:"weather", jp:"てんき" },
-  { icon:"⛈️", en:"storm", jp:"あらし" },
-  { icon:"😌", en:"cool", jp:"すずしい" },
-  { icon:"🏜️", en:"dry", jp:"かわいた" },
-  { icon:"💧", en:"wet", jp:"ぬれた" },
-{ icon:"🌈", en:"fine", jp:"はれている" },
-{ icon:"🌩️", en:"stormy", jp:"あらしの" },
-{ icon:"💦", en:"humid", jp:"むしあつい" }
+  { icon:"🚣", en:"lake", jp:"みずうみ" },
+  { icon:"🏞️", en:"river", jp:"かわ" },
+  { icon:"⛰️", en:"mountain", jp:"やま" },
+  { icon:"🏖️", en:"beach", jp:"はま・はまべ" },
+  { icon:"🌲", en:"forest", jp:"もり" },
+  { icon:"🌊", en:"sea", jp:"うみ" },
+  { icon:"🌄", en:"hill", jp:"おか" },
+  { icon:"🏝️", en:"island", jp:"しま" },
+  { icon:"💦", en:"waterfall", jp:"たき" },
+  { icon:"🪷", en:"pond", jp:"いけ" },
+  { icon:"🏊", en:"pool", jp:"プール" },
+  { icon:"🌳", en:"park", jp:"こうえん" },
+  { icon:"🚜", en:"farm", jp:"のうじょう" },
+  { icon:"🦁", en:"zoo", jp:"どうぶつえん" },
+  { icon:"🎡", en:"amusement park", jp:"ゆうえんち" },
+  { icon:"🏋️", en:"gym", jp:"スポーツジム" },
+  { icon:"🍽️", en:"restaurant", jp:"レストラン" },
+  { icon:"🛒", en:"supermarket", jp:"スーパーマーケット" },
+  { icon:"🎬", en:"movie", jp:"えいが" },
+  { icon:"🏮", en:"festival", jp:"まつり" },
+  { icon:"🎤", en:"concert", jp:"コンサート" },
+  { icon:"🎪", en:"circus", jp:"サーカス" },
+  { icon:"🏛️", en:"museum", jp:"はくぶつかん・びじゅつかん" },
+  { icon:"🌺", en:"botanical garden", jp:"しょくぶつえん" },
+  { icon:"🕹️", en:"game arcade", jp:"ゲームセンター" },
+  { icon:"🏟️", en:"stadium", jp:"スタジアム・きょうぎじょう" },
+  { icon:"🍳", en:"kitchen", jp:"だいどころ" },
+  { icon:"🛋️", en:"living room", jp:"リビング" },
+  { icon:"🛁", en:"bathroom", jp:"おふろ" },
+  { icon:"🛏️", en:"bedroom", jp:"しんしつ" },
+  { icon:"🍴", en:"dining room", jp:"しょくどう" },
+  { icon:"👟", en:"entrance", jp:"いりぐち・げんかん" },
+  { icon:"🚽", en:"toilet", jp:"おてあらい" },
+  { icon:"🪑", en:"room", jp:"へや" },
+  { icon:"🟫", en:"floor", jp:"ゆか" },
+  { icon:"🚪", en:"door", jp:"ドア" },
+  { icon:"🌷", en:"garden", jp:"にわ（草花などのスペース）" },
+  { icon:"🌿", en:"yard", jp:"にわ（建物についてる空き地）" },
+  { icon:"👚", en:"closet", jp:"クローゼット" },
+  { icon:"🧱", en:"wall", jp:"かべ" },
+  { icon:"🪟", en:"window", jp:"まど" },
+  { icon:"🚙", en:"garage", jp:"車庫" },
+  { icon:"🌇", en:"balcony", jp:"バルコニー・ベランダ" },
+  { icon:"🏠", en:"roof", jp:"やね" },
+  { icon:"🪜", en:"stairs", jp:"かいだん" },
+  { icon:"↔️", en:"hallway", jp:"げんかんのひろま・ろうか" },
+  { icon:"🧑‍🏫", en:"classroom", jp:"きょうしつ" },
+  { icon:"📚", en:"library", jp:"としょしつ・としょかん" },
+  { icon:"🤽", en:"swimming pool", jp:"プール" },
+  { icon:"👩‍🏫", en:"teacher's room", jp:"しょくいんしつ" },
+  { icon:"⛩️", en:"gate", jp:"もん" },
+  { icon:"🎹", en:"music room", jp:"おんがくしつ" },
+  { icon:"⚽", en:"schoolyard", jp:"こうてい" },
+  { icon:"🏀", en:"gym", jp:"たいいくかん" },
+  { icon:"🚻", en:"restroom", jp:"トイレ" }
 ];
+
   let activeWords = words.slice();
 let wrongWords = [];
 let questionIndex = 0;
