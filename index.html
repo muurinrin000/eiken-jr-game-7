@@ -1,1 +1,1020 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+/>
+<title>英検Jr. イラスト3択ゲーム6</title>
+<style>
+  html,
+body,
+button{
+  touch-action: manipulation;
+}
+  
+  :root{
+    --bg1:#fff8df;
+    --bg2:#eaf8ff;
+    --card:#ffffff;
+    --main:#ffb703;
+    --accent:#fb8500;
+    --sky:#8ecae6;
+    --ok:#2a9d8f;
+    --bad:#e76f51;
+    --text:#263044;
+    --muted:#607089;
+    --line:#dcecf4;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:linear-gradient(180deg,var(--bg1),var(--bg2));
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;
+  }
+  .app{max-width:760px;margin:0 auto;padding:14px;}
+  .header{text-align:center;padding:8px 0 10px;}
+  .badge{display:inline-block;padding:6px 12px;border-radius:999px;background:var(--main);font-weight:900;font-size:13px;}
+  h1{margin:8px 0 4px;font-size:25px;}
+  .lead{margin:0;color:var(--muted);font-size:14px;}
+  .game-card{background:var(--card);border-radius:28px;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,.09);}
+  .top{display:flex;justify-content:space-between;align-items:center;font-weight:900;margin-bottom:10px;}
+  .score{background:#edf6f9;padding:7px 12px;border-radius:999px;}
+  .image-area{background:#fffefa;border:4px dashed var(--line);border-radius:30px;min-height:180px;display:grid;place-items:center;margin:10px 0 8px;}
+  .image-btn{all:unset;font-size:108px;line-height:1;cursor:pointer;text-align:center;}
+  .tap-note{text-align:center;color:var(--muted);font-size:13px;margin-bottom:14px;}
+  .question-title{font-size:22px;font-weight:900;margin:18px 0 9px;}
+  .choice-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:12px;}
+  .choice{
+    width:100%;
+    min-height:54px;
+    border:2px solid var(--line);
+    background:#fff;
+    border-radius:18px;
+    padding:14px 12px;
+    font-size:20px;
+    font-weight:900;
+    text-align:left;
+    box-shadow:0 3px 0 rgba(0,0,0,.06);
+    color:var(--text);
+  }
+  .choice .num{display:inline-grid;place-items:center;width:30px;height:30px;margin-right:8px;border-radius:50%;background:#edf6f9;font-size:14px;}
+  .choice.correct{background:#d8f3dc;border-color:var(--ok);}
+  .choice.wrong{background:#ffe0d6;border-color:var(--bad);}
+  .sound-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px;}
+  .sound-row button,.answer-btn,.next-btn{
+    border:0;border-radius:17px;padding:13px 8px;font-size:16px;font-weight:900;color:var(--text);background:#edf6f9;
+  }
+  .slow{background:#e8f5e9!important;}
+  .answer-btn{width:100%;margin-top:14px;background:var(--sky);}
+  .next-btn{width:100%;margin-top:12px;background:var(--accent);color:white;}
+  .feedback{min-height:34px;margin-top:12px;text-align:center;font-size:23px;font-weight:900;}
+  .sound-status{text-align:center;color:var(--muted);font-size:13px;min-height:20px;margin-top:8px;}
+  .answer{display:none;text-align:center;margin-top:14px;padding:16px;background:#fff8df;border-radius:20px;}
+  .answer .icon{font-size:58px;}
+  .answer .jp{font-size:28px;font-weight:900;}
+  .answer .en{font-size:28px;font-weight:900;color:#156082;}
+  .stars{text-align:center;font-size:22px;margin-top:6px;}
+.sound-large{
+  grid-template-columns: 1fr 1fr;
+  gap:12px;
+}
+
+.sound-large button{
+  min-height:70px;
+  font-size:28px;
+  font-weight:900;
+  border-radius:24px;
+}
+
+#soundTestBtn{
+  width:100%;
+  background:#edf6f9;
+  color:#607089;
+  font-size:12px;
+  font-weight:700;
+  min-height:40px;
+  border-radius:16px;
+  margin-top:50px;
+  margin-bottom:6px;
+}
+
+.theme-badge{
+  display:inline-block;
+  margin:8px 0 6px;
+  padding:8px 18px;
+  border:2px solid #8bd19a;
+  border-radius:999px;
+  background:#fffefa;
+  color:#2a9d8f;
+  font-weight:900;
+  font-size:20px;
+}
+
+.info-box{
+  margin-top:28px;
+  background:#fffdf2;
+  border:2px dashed #ffcf5a;
+  border-radius:24px;
+  padding:18px;
+  text-align:left;
+}
+
+.info-title{
+  font-size:20px;
+  font-weight:900;
+  color:#b86b00;
+  margin-bottom:14px;
+}
+
+.info-item{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  padding:12px 0;
+  border-bottom:1px dashed #f3d28a;
+}
+
+.info-icon{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#edf6f9;
+  font-size:24px;
+  flex-shrink:0;
+}
+
+.info-text strong{
+  display:block;
+  font-size:16px;
+  margin-bottom:3px;
+}
+
+.info-text span{
+  color:#607089;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.parts-mini{
+  margin-top:16px;
+  background:#fff;
+  border-radius:20px;
+  padding:14px;
+  text-align:center;
+}
+
+.parts-face{
+  font-size:70px;
+  margin-bottom:10px;
+}
+
+.parts-tags{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.parts-tags span{
+  background:#edf6f9;
+  border-radius:999px;
+  padding:8px 6px;
+  font-weight:900;
+  font-size:13px;
+}
+
+.target-box{
+  margin-top:14px;
+  background:#edf6f9;
+  border-radius:16px;
+  padding:10px;
+  text-align:center;
+  font-weight:900;
+  color:#40516b;
+}
+
+  .settings-open{
+  position:absolute;
+  top:14px;
+  right:14px;
+  border:0;
+  background:#edf6f9;
+  border-radius:999px;
+  width:44px;
+  height:44px;
+  font-size:22px;
+  font-weight:900;
+}
+
+.settings-sheet{
+  display:none;
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:999;
+  background:#fff;
+  border-radius:28px 28px 0 0;
+  padding:18px;
+  box-shadow:0 -8px 30px rgba(0,0,0,.18);
+  max-height:82vh;
+  overflow:auto;
+}
+
+.settings-sheet.active{
+  display:block;
+}
+
+.settings-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+.settings-head h2{
+  margin:0;
+  font-size:22px;
+}
+
+.close-settings{
+  border:0;
+  background:#edf6f9;
+  border-radius:999px;
+  width:38px;
+  height:38px;
+  font-size:22px;
+  font-weight:900;
+}
+
+.setting-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin:12px 0;
+}
+
+.setting-actions button,
+.save-settings{
+  border:0;
+  border-radius:16px;
+  padding:12px;
+  font-weight:900;
+  background:#ffb703;
+  color:#263044;
+  margin-top:24px;   /* ←追加 */
+}
+
+
+.word-checks{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+
+.word-checks label{
+  background:#fff8df;
+  border:2px solid #f3d28a;
+  border-radius:16px;
+  padding:10px;
+  font-weight:900;
+}
+
+.review-toggle{
+  margin-top:16px;
+  background:#edf6f9;
+  border-radius:16px;
+  padding:12px;
+  font-weight:900;
+}
+
+  .result-card{
+  background:#fffdf2;
+  border:3px solid #ffcf5a;
+  border-radius:24px;
+  padding:18px;
+  margin-top:16px;
+  text-align:left;
+}
+
+.result-card-title{
+  text-align:center;
+  font-size:22px;
+  font-weight:900;
+}
+
+.result-date{
+  text-align:center;
+  margin-top:8px;
+  color:#607089;
+  font-weight:900;
+}
+
+.result-score{
+  text-align:center;
+  font-size:28px;
+  font-weight:900;
+  margin:14px 0;
+  color:#fb8500;
+}
+
+.result-list{
+  display:grid;
+  gap:8px;
+  margin-top:12px;
+}
+
+.result-item{
+  background:#fff;
+  border-radius:14px;
+  padding:10px 12px;
+  font-size:18px;
+  font-weight:900;
+}
+
+.result-ok{ color:#2a9d8f; }
+.result-ng{ color:#e76f51; }
+</style>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <button id="settingsOpen" class="settings-open" type="button">⚙️</button>
+    <span class="badge">英検Jr. ブロンズ向け</span>
+<h1>イラスト3択えいごゲーム6</h1>
+  </div>
+
+  <main class="game-card">
+  <div id="startOverlay" style="text-align:center; padding:24px;">
+  <div style="font-size:64px;">🎧</div>
+  <h2 style="font-size:28px;">音を聞いて答えよう</h2>
+
+  <button id="startBtn" class="next-btn" type="button">スタート</button>
+    
+    
+<button
+  id="soundTestBtn"
+  class="answer-btn"
+  type="button"
+>
+  🔊 音が出るかしらべる
+</button>
+
+<div
+  id="soundStatus"
+  style="
+    margin-top:16px;
+    min-height:40px;
+    font-size:16px;
+    font-weight:700;
+    color:#607089;
+  "
+>
+  🔊 音が出るかがわかります
+</div>    
+
+<div class="info-box">
+  <div class="info-title">⭐ このゲームで学べること</div>
+
+  <div class="info-item">
+    <div class="info-icon">📖</div>
+    <div class="info-text">
+      <strong>かんたんな英単語</strong>
+      <span>てんきの英語を楽しく学べます。</span>
+    </div>
+  </div>
+
+  <div class="info-item">
+    <div class="info-icon">🔊</div>
+    <div class="info-text">
+      <strong>音声つきで発音練習</strong>
+      <span>ふつうとゆっくりの音声を聞けます。</span>
+    </div>
+  </div>
+
+  <div class="info-item">
+    <div class="info-icon">💡</div>
+    <div class="info-text">
+      <strong>日本語と英語の意味を覚える練習</strong>
+      <span>絵を見ながら、意味をセットで覚えられます。</span>
+    </div>
+  </div>
+
+  <div class="target-box">👥 対象：4〜8歳（幼児〜小学校低学年向け）</div>
+</div>
+
+    </div>
+    
+<div id="gameArea" style="display:none;">
+<div class="top">
+      <div id="counter">問題 1 / 8</div>
+      <div class="score">⭐ <span id="score">0</span></div>
+    </div>
+
+    <div class="image-area">
+      <button id="imageBtn" class="image-btn" type="button">🍎</button>
+    </div>
+
+<div class="sound-row sound-large">
+  <button id="normalBtn" type="button">
+    🔊 ふつう
+  </button>
+
+  <button id="slowBtn" type="button" class="slow">
+    🐢 ゆっくり
+  </button>
+</div>
+    
+    <div class="question-title">日本語はどれ？</div>
+    <div id="jpChoices" class="choice-grid"></div>
+
+    <div class="question-title">Englishはどれ？</div>
+    <div id="enChoices" class="choice-grid"></div>
+
+  <button id="nextBtnTop" class="next-btn" type="button">
+  つぎの問題へ
+</button>
+  
+    <div id="feedback" class="feedback"></div>
+    <div id="stars" class="stars"></div>
+
+    <button id="answerBtn" class="answer-btn" type="button">答えを聴く</button>
+    <div id="answerBox" class="answer"></div>
+        <div class="sound-row">
+      <button id="slowBtn2" type="button" class="slow">🐢 ゆっくり</button>
+      <button id="jpBtn" type="button">🔊 日本語</button>
+    </div>
+    
+    <button id="nextBtnBottom" class="next-btn" type="button">つぎの問題へ</button>
+<section id="resultScreen" style="display:none; text-align:center; padding:22px;">
+  <div class="result-card" id="captureArea">
+    <div class="result-card-title">🏆 英検Jr. ブロンズ　イラスト3択ゲーム5</div>
+    <div id="resultDate" class="result-date"></div>
+
+    <div class="result-score">
+      ⭐ <span id="finalScore">0</span> / <span id="totalScore">0</span>
+    </div>
+
+    <p id="resultMessage" style="text-align:center; font-size:20px; font-weight:900;"></p>
+
+    <div id="resultList" class="result-list"></div>
+  </div>
+
+  <button id="restartBtn" class="next-btn" type="button">もう一度あそぶ</button>
+
+  <button id="captureBtn" class="next-btn" type="button">
+    📸 結果を画像で保存
+  </button>
+</section>
+  </div>
+
+    <div id="settingsSheet" class="settings-sheet">
+  <div class="settings-head">
+    <h2>⚙️ 保護者向け設定</h2>
+    <button id="settingsClose" class="close-settings" type="button">×</button>
+  </div>
+
+  <strong>出題する単語</strong>
+
+  <div class="setting-actions">
+    <button id="selectAllBtn" type="button">すべて選択</button>
+    <button id="clearAllBtn" type="button">すべて外す</button>
+  </div>
+
+  <div id="wordChecks" class="word-checks"></div>
+
+
+  <button id="saveSettingsBtn" class="save-settings" type="button">
+    保存してはじめる
+  </button>
+</div>
+  </main>
+</div>
+
+<script>
+(function(){
+const words = [
+  { icon:"☀️", en:"sun", jp:"たいよう" },
+  { icon:"🌧️", en:"rain", jp:"あめ" },
+  { icon:"❄️", en:"snow", jp:"ゆき" },
+  { icon:"☁️", en:"cloud", jp:"くも" },
+  { icon:"🥵", en:"hot", jp:"あつい" },
+  { icon:"🥶", en:"cold", jp:"さむい" },
+  { icon:"🌤️", en:"warm", jp:"あたたかい" },
+  { icon:"💨", en:"wind", jp:"かぜ" },
+  { icon:"🌞", en:"sunny", jp:"はれている" },
+  { icon:"☔", en:"rainy", jp:"あめの" },
+  { icon:"🌥️", en:"cloudy", jp:"くもっている" },
+  { icon:"🌨️", en:"snowy", jp:"ゆきの" },
+  { icon:"🌬️", en:"windy", jp:"かぜがつよい" },
+  { icon:"🌦️", en:"weather", jp:"てんき" },
+  { icon:"⛈️", en:"storm", jp:"あらし" },
+  { icon:"😌", en:"cool", jp:"すずしい" },
+  { icon:"🏜️", en:"dry", jp:"かわいた" },
+  { icon:"💧", en:"wet", jp:"ぬれた" },
+{ icon:"🌈", en:"fine", jp:"はれている" },
+{ icon:"🌩️", en:"stormy", jp:"あらしの" },
+{ icon:"💦", en:"humid", jp:"むしあつい" }
+];
+  let activeWords = words.slice();
+let wrongWords = [];
+let questionIndex = 0;
+  let score = 0;
+  let current = words[0];
+  let jpCorrect = false;
+  let enCorrect = false;
+  let pointAdded = false;
+let answerHistory = [];
+let currentResult = null;
+  
+  const $ = id => document.getElementById(id);
+
+  function shuffle(arr){
+    return arr.slice().sort(() => Math.random() - 0.5);
+  }
+
+  function setStatus(text){
+    $("soundStatus").textContent = text;
+  }
+
+function playCorrectSound(){
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+  const o1 = ctx.createOscillator();
+  const g1 = ctx.createGain();
+  o1.connect(g1);
+  g1.connect(ctx.destination);
+  o1.type = "sine";
+  o1.frequency.value = 880;
+  g1.gain.setValueAtTime(0.15, ctx.currentTime);
+  g1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+  o1.start(ctx.currentTime);
+  o1.stop(ctx.currentTime + 0.18);
+
+  const o2 = ctx.createOscillator();
+  const g2 = ctx.createGain();
+  o2.connect(g2);
+  g2.connect(ctx.destination);
+  o2.type = "sine";
+  o2.frequency.value = 1320;
+  g2.gain.setValueAtTime(0.15, ctx.currentTime + 0.18);
+  g2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.38);
+  o2.start(ctx.currentTime + 0.18);
+  o2.stop(ctx.currentTime + 0.38);
+}
+
+function playWrongSound(){
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+  const o = ctx.createOscillator();
+  const g = ctx.createGain();
+  o.connect(g);
+  g.connect(ctx.destination);
+  o.type = "sawtooth";
+  o.frequency.setValueAtTime(180, ctx.currentTime);
+  o.frequency.linearRampToValueAtTime(90, ctx.currentTime + 0.35);
+  g.gain.setValueAtTime(0.12, ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+  o.start(ctx.currentTime);
+  o.stop(ctx.currentTime + 0.35);
+}
+  
+  function speak(text, lang, rate){
+    if(!("speechSynthesis" in window)){
+      setStatus("この表示環境は音声読み上げに対応していません。");
+      return;
+    }
+
+    try{
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = lang;
+      u.rate = rate;
+      u.pitch = 1.3;
+      u.volume = 1;
+
+      const voices = speechSynthesis.getVoices();
+let voice;
+
+if (lang === "en-US") {
+  voice =
+    voices.find(v => v.name.includes("Samantha")) ||
+    voices.find(v => v.name.includes("Karen")) ||
+    voices.find(v => v.lang === "en-US");
+} else if (lang === "ja-JP") {
+  voice =
+    voices.find(v => v.lang === "ja-JP") ||
+    voices.find(v => v.lang.startsWith("ja"));
+}
+
+if (voice) u.voice = voice;
+      
+      u.onstart = () => setStatus("再生中：" + text);
+      u.onend = () => setStatus("再生完了：" + text);
+      u.onerror = () => setStatus("音声がブロックされました。Safariで開いて確認してください。");
+
+      speechSynthesis.speak(u);
+    }catch(e){
+      setStatus("音声エラー：" + e.message);
+    }
+  }
+
+  function speakEnNormal(){ speak(current.en, "en-US", 0.85); }
+  function speakEnSlow(){ speak(current.en, "en-US", 0.30); }
+  function speakJp(){ speak(current.jp, "ja-JP", 0.9); }
+function speakBoth(){
+  if(!("speechSynthesis" in window)) return;
+
+  const en = new SpeechSynthesisUtterance(current.en);
+  en.lang = "en-US";
+  en.rate = 0.85;
+  en.pitch = 1.3;
+
+  const jp = new SpeechSynthesisUtterance(current.jp);
+  jp.lang = "ja-JP";
+  jp.rate = 0.9;
+  jp.pitch = 1.3;
+
+  speechSynthesis.speak(en);
+  speechSynthesis.speak(jp);
+}
+
+  function choiceButton(label, value, correct, type){
+    const btn = document.createElement("button");
+    btn.className = "choice";
+    btn.type = "button";
+
+    const num = document.createElement("span");
+    num.className = "num";
+    num.textContent = label;
+
+    btn.appendChild(num);
+    btn.appendChild(document.createTextNode(value));
+    btn.dataset.value = value;
+
+    btn.onclick = () => {
+      const container = type === "jp" ? $("jpChoices") : $("enChoices");
+      Array.from(container.children).forEach(b => b.disabled = true);
+
+      if(value === correct){
+        btn.classList.add("correct");
+        playCorrectSound();
+
+        if(type === "jp") jpCorrect = true;
+        if(type === "en") enCorrect = true;
+        $("feedback").textContent = "いいね！";
+      }else{
+        btn.classList.add("wrong");
+        playWrongSound();
+
+        if(currentResult){
+    currentResult.correct = false;
+}
+        if(!wrongWords.some(w => w.en === current.en)){
+  wrongWords.push(current);
+}
+        Array.from(container.children).forEach(b => {
+          if(b.dataset.value === correct) b.classList.add("correct");
+        });
+        $("feedback").textContent = "正解を見て覚えよう！";
+      }
+
+      if(jpCorrect && enCorrect && !pointAdded){
+        pointAdded = true;
+        score++;
+        $("score").textContent = score;
+        $("feedback").textContent = "🎉 Great!";
+        $("stars").textContent = "⭐ +1";      
+      }
+      // 日本語・英語どちらも選び終わったら答えを表示
+if(
+  document.querySelectorAll("#jpChoices button:disabled").length === 3 &&
+  document.querySelectorAll("#enChoices button:disabled").length === 3
+){
+    showAnswer(false);
+}
+    };
+    return btn;
+  }
+
+  function renderChoices(type){
+    const key = type === "jp" ? "jp" : "en";
+    const container = type === "jp" ? $("jpChoices") : $("enChoices");
+    const correct = current[key];
+    const labels = ["①", "②", "③"];
+const source = activeWords.length >= 3 ? activeWords : words;
+const wrongs = shuffle(source.filter(w => w !== current)).slice(0,2).map(w => w[key]);
+    const options = shuffle([correct].concat(wrongs));
+
+    container.innerHTML = "";
+    options.forEach((value, i) => {
+      container.appendChild(choiceButton(labels[i], value, correct, type));
+    });
+  }
+
+  function showAnswer(playSound){
+    $("answerBox").style.display = "block";
+    $("answerBox").innerHTML =
+      '<div class="icon">' + current.icon + '</div>' +
+      '<div class="jp">' + current.jp + '</div>' +
+      '<div class="en">' + current.en + '</div>';
+    if(playSound) speakBoth();
+  }
+
+  function render(){
+current = activeWords[questionIndex % activeWords.length];
+    currentResult = {
+  icon: current.icon,
+  en: current.en,
+  jp: current.jp,
+  correct: true
+};
+    jpCorrect = false;
+    enCorrect = false;
+    pointAdded = false;
+
+$("counter").textContent = "問題 " + ((questionIndex % activeWords.length) + 1) + " / " + activeWords.length;
+    $("imageBtn").textContent = current.icon;
+    $("feedback").textContent = "";
+    $("stars").textContent = "";
+    $("answerBox").style.display = "none";
+    $("answerBox").innerHTML = "";
+
+    renderChoices("jp");
+    renderChoices("en");
+  }
+
+  $("imageBtn").onclick = speakEnNormal;
+  $("slowBtn").onclick = speakEnSlow;
+  $("slowBtn2").onclick = speakEnSlow;
+  $("normalBtn").onclick = speakEnNormal;
+  $("jpBtn").onclick = speakJp;
+  $("answerBtn").onclick = () => showAnswer(true);
+  $("soundTestBtn").onclick = () => {
+  speak("Can you hear me?", "en-US", 0.8);
+};
+  $("startBtn").onclick = () => {
+
+  // ←追加
+  answerHistory = [];
+  currentResult = null;
+  questionIndex = 0;
+  score = 0;
+  $("score").textContent = score;
+
+  render();
+
+  $("startOverlay").style.display = "none";
+  $("gameArea").style.display = "block";
+
+  speakEnNormal();
+};
+  
+function nextQuestion(){
+  if(currentResult){
+  answerHistory.push(currentResult);
+  currentResult = null;
+}
+  questionIndex++;
+
+if (questionIndex >= activeWords.length) {
+    showResult();
+  } else {
+    render();
+
+    setTimeout(() => {
+      speakEnNormal();
+    }, 300);
+  }
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+  $("nextBtnTop").onclick = nextQuestion;
+$("nextBtnBottom").onclick = nextQuestion;
+
+  if("speechSynthesis" in window){
+    speechSynthesis.getVoices();
+    speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+  }
+
+const STORAGE_KEY = "bodyPartsGameSettings";
+  
+function buildSettings(){
+  const box = $("wordChecks");
+  box.innerHTML = "";
+
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+  const savedIndexes = saved && saved.selectedIndexes ? saved.selectedIndexes : words.map((_, i) => i);
+
+  words.forEach((w, i) => {
+    const checked = savedIndexes.includes(i) ? "checked" : "";
+
+    const label = document.createElement("label");
+    label.innerHTML =
+      '<input type="checkbox" class="wordCheck" value="' + i + '" ' + checked + '> ' +
+      w.icon + ' ' + w.jp + ' / ' + w.en;
+    box.appendChild(label);
+  });
+
+  activeWords = savedIndexes.map(i => words[i]).filter(Boolean);
+}
+
+$("settingsOpen").onclick = () => {
+  $("settingsSheet").classList.add("active");
+};
+
+$("settingsClose").onclick = () => {
+  $("settingsSheet").classList.remove("active");
+};
+
+$("selectAllBtn").onclick = () => {
+  document.querySelectorAll(".wordCheck").forEach(c => c.checked = true);
+};
+
+$("clearAllBtn").onclick = () => {
+  document.querySelectorAll(".wordCheck").forEach(c => c.checked = false);
+};
+
+$("saveSettingsBtn").onclick = () => {
+
+const checked = Array.from(document.querySelectorAll(".wordCheck:checked"))
+  .map(c => words[Number(c.value)]);
+
+if(checked.length === 0){
+  alert("最低1つは選んでください");
+  return;
+}
+
+activeWords = checked;
+
+  const selectedIndexes = Array.from(document.querySelectorAll(".wordCheck:checked"))
+  .map(c => Number(c.value));
+
+localStorage.setItem(STORAGE_KEY, JSON.stringify({
+  selectedIndexes: selectedIndexes
+}));
+
+  questionIndex = 0;
+  score = 0;
+  answerHistory = [];
+currentResult = null;
+  $("score").textContent = score;
+  $("settingsSheet").classList.remove("active");
+
+  render();
+};
+
+  buildSettings();
+
+  render();
+
+  function showResult(){
+    $("resultDate").textContent = new Date().toLocaleString("ja-JP");
+
+$("resultList").innerHTML = answerHistory.map(item => {
+  const mark = item.correct ? "○" : "×";
+  const cls = item.correct ? "result-ok" : "result-ng";
+
+  return `
+    <div class="result-item">
+      <span class="${cls}">${mark}</span>
+      ${item.icon} ${item.en} / ${item.jp}
+    </div>
+  `;
+}).join("");
+  document.querySelector(".image-area").style.display = "none";
+const tapNote = document.querySelector(".tap-note");
+if (tapNote) tapNote.style.display = "none";
+  document.querySelectorAll(".sound-row").forEach(el => {
+  el.style.display = "none";
+});
+  document.querySelectorAll(".question-title").forEach(el => el.style.display = "none");
+  $("jpChoices").style.display = "none";
+  $("enChoices").style.display = "none";
+  $("feedback").style.display = "none";
+  $("stars").style.display = "none";
+  $("answerBtn").style.display = "none";
+  $("answerBox").style.display = "none";
+$("nextBtnTop").style.display = "none";
+$("nextBtnBottom").style.display = "none";
+
+  $("resultScreen").style.display = "block";
+  $("finalScore").textContent = score;
+$("totalScore").textContent = activeWords.length;
+
+if(score === activeWords.length){
+    $("resultMessage").textContent = "すごい！ぜんぶ正解！";
+  }else if(score >= Math.ceil(words.length * 0.7)){
+    $("resultMessage").textContent = "よくできました！";
+  }else{
+    $("resultMessage").textContent = "もう一回やって覚えよう！";
+  }
+}
+
+$("restartBtn").onclick = () => {
+  questionIndex = 0;
+  score = 0;
+
+  // ←追加
+  answerHistory = [];
+  currentResult = null;
+
+  $("score").textContent = score;
+
+  document.querySelector(".image-area").style.display = "grid";
+const tapNote = document.querySelector(".tap-note");
+if (tapNote) tapNote.style.display = "block";
+
+  document.querySelectorAll(".sound-row").forEach(el => {
+  el.style.display = "grid";
+});
+  document.querySelectorAll(".question-title").forEach(el => {
+    el.style.display = "block";
+  });
+
+ 
+  $("jpChoices").style.display = "grid";
+  $("enChoices").style.display = "grid";
+  $("feedback").style.display = "block";
+  $("stars").style.display = "block";
+  $("answerBtn").style.display = "block";
+$("nextBtnTop").style.display = "block";
+$("nextBtnBottom").style.display = "block";
+  $("resultScreen").style.display = "none";
+
+  render();
+
+setTimeout(() => {
+
+    speakEnNormal();
+
+  }, 300);
+
+};
+
+let lastTouchEnd = 0;
+
+document.addEventListener("touchend", function(event){
+  const now = Date.now();
+
+  if(now - lastTouchEnd <= 300){
+    event.preventDefault();
+  }
+
+  lastTouchEnd = now;
+}, { passive:false });
+
+
+  
+$("captureBtn").onclick = async () => {
+  const canvas = await html2canvas($("captureArea"), {
+    backgroundColor:"#ffffff",
+    scale:2
+  });
+
+  canvas.toBlob(async (blob) => {
+const now = new Date();
+
+const fileName =
+  "eikenjr-game-" +
+  now.getFullYear() +
+  String(now.getMonth() + 1).padStart(2, "0") +
+  String(now.getDate()).padStart(2, "0") + "-" +
+  String(now.getHours()).padStart(2, "0") +
+  String(now.getMinutes()).padStart(2, "0") +
+  String(now.getSeconds()).padStart(2, "0") +
+  ".png";
+
+const file = new File([blob], fileName, { type:"image/png" });
+
+    if(navigator.canShare && navigator.canShare({ files:[file] })){
+      await navigator.share({
+        files:[file],
+        title:"英検Jr. 結果",
+        text:"今日の学習結果です"
+      });
+    }else{
+      alert("画像を長押しして保存してください");
+    }
+  }, "image/png");
+};
+
+  
+})();
+
+  
+</script>
+</body>
+</html>
 
